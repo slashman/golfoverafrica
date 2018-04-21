@@ -13,7 +13,11 @@ export default class extends Phaser.State {
     this.inputBlocked = false;
     this.power = 5
     this.currentTurn = -1
-
+    this.startPosition = {
+      x: 302,
+      y: 475
+    }
+    this.game.add.image(this.startPosition.x - 18, this.startPosition.y - 10, 'tee')
     const shoot = new Phaser.Sprite(this.game, 40 + 60 + 10, 600, 'shootBtn')
     shoot.inputEnabled = true
     shoot.events.onInputDown.add(() => this.shoot())
@@ -45,8 +49,8 @@ export default class extends Phaser.State {
     Players.forEach((p, i) => {
       p.ball = new Ball({
         game: this.game,
-        x: this.world.centerX,
-        y: this.world.centerY,
+        x: this.startPosition.x,
+        y: this.startPosition.y,
         asset: 'ball'
       })
       p.ball.scale.setTo(0.2)
