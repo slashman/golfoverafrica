@@ -14,39 +14,33 @@ export default class extends Phaser.State {
     this.power = 5
     this.currentTurn = -1
 
-    const shoot = new Phaser.Sprite(this.game, this.world.centerX, 100, 'shootBtn')
-    shoot.anchor.setTo(0.5)
+    const shoot = new Phaser.Sprite(this.game, 40 + 60 + 10, 600, 'shootBtn')
     shoot.inputEnabled = true
     shoot.events.onInputDown.add(() => this.shoot())
-    const left = new Phaser.Sprite(this.game, this.world.centerX - 53 - 40, 100, 'leftBtn')
-    left.anchor.setTo(0.5)
+    const left = new Phaser.Sprite(this.game, 40, 600, 'leftBtn')
     left.inputEnabled = true
     left.events.onInputDown.add(() => this.rotate(-1))
-    const right = new Phaser.Sprite(this.game, this.world.centerX + 53 + 40, 100, 'rightBtn')
-    right.anchor.setTo(0.5)
+    const right = new Phaser.Sprite(this.game, 40 + 60 + 10 + 106 + 10, 600, 'rightBtn')
     right.inputEnabled = true
     right.events.onInputDown.add(() => this.rotate(1))
 
-    const plus = new Phaser.Sprite(this.game, this.world.centerX + 53 + 40, 160, 'plusBtn')
-    plus.anchor.setTo(0.5)
+    const plus = new Phaser.Sprite(this.game, 40 + 60 + 10 + 106 + 10, 660, 'plusBtn')
     plus.inputEnabled = true
     plus.events.onInputDown.add(() => this.changePower(1))
-    const minus = new Phaser.Sprite(this.game, this.world.centerX - 53 - 40, 160, 'minusBtn')
-    minus.anchor.setTo(0.5)
+    const minus = new Phaser.Sprite(this.game, 40, 660, 'minusBtn')
     minus.inputEnabled = true
     minus.events.onInputDown.add(() => this.changePower(-1))
 
     this.powerText = this.game.add.text(0, 0, this.power, { font: "bold 32px Serif", fill: "#FFF", boundsAlignH: "center", boundsAlignV: "middle" })
-    this.powerText.setTextBounds(this.world.centerX - 100, 110, 200, 100)
+    this.powerText.setTextBounds(40 + 20, 635, 200, 100)
 
-    this.turnName = this.game.add.text(0, 0, '', { font: "bold 32px Serif", fill: "#FFF", boundsAlignH: "center", boundsAlignV: "middle" })
-    this.turnName.setTextBounds(this.world.centerX - 100, 0, 200, 100)
+    this.turnName = this.game.add.text(40, 550, '', { font: "bold 32px Serif", fill: "#FFF" })
 
     this.arrow = new Phaser.Sprite(this.game, 0, 0, 'arrow')
     this.arrow.anchor.setTo(0.5, 0)
     this.arrow.visible = false
 
-    this.eventsText = this.game.add.text(80, 700, '', { font: "bold 24px Serif", fill: "#FFF" })
+    this.eventsText = this.game.add.text(40, 720, '', { font: "bold 24px Serif", fill: "#FFF" })
 
     Players.forEach((p, i) => {
       p.ball = new Ball({
