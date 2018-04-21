@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import { centerGameObjects } from '../utils'
+import Territories from '../Territories';
 
 export default class extends Phaser.State {
   init () {}
@@ -21,6 +22,7 @@ export default class extends Phaser.State {
     this.load.image('plusBtn', 'assets/images/plusBtn.png')
     this.load.image('minusBtn', 'assets/images/minusBtn.png')
 
+    Territories.forEach(territory => this.load.image('t-'+territory.id, 'assets/images/t-'+territory.id+'.png'))
   }
 
   create () {

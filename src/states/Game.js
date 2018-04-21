@@ -1,10 +1,14 @@
 import Phaser from 'phaser'
 import Ball from '../sprites/Ball'
 import Time from '../Time'
+import Territories from '../Territories'
+
 
 export default class extends Phaser.State {
   create () {
     Time.init(this.game)
+
+    this.initBitmaps()
 
     this.power = 5
 
@@ -51,9 +55,39 @@ export default class extends Phaser.State {
     this.game.add.existing(minus)
   }
 
+  initBitmaps () {
+    this.bitmaps = Territories.map(territory => {
+      var bmd = this.game.make.bitmapData(850, 873)
+      bmd.draw(this.game.cache.getImage('t-'+territory.id), 0, 0)
+      bmd.update()
+      var sprite = this.game.add.sprite(0, 0, bmd)
+      return {
+        bmd: bmd,
+        sprite: sprite,
+        territory: territory
+      }
+    })
+  }
+
   shoot () {
-    this.ball.shoot(this.power, this.arrow.rotation + Math.PI / 2, 0).then(() => this.relocateArrow())
+    this.ball.shoot(this.power, this.arrow.rotation + Math.PI / 2, 0).then(() => {
+      this.relocateArrow()
+      this.checkCollision()
+    })
     this.arrow.visible = false
+  }
+
+  checkCollision () {
+    const collided = this.bitmaps.find((b) => {
+      const bmd = b.bmd
+      const col = bmd.getPixel(Math.floor(this.ball.x), Math.floor(this.ball.y))
+      return col.a > 0
+    })
+    if (collided) {
+      console.log("Landed in " + collided.territory.name)
+    } else {
+      console.log("Landed nowhere")
+    }
   }
 
   rotate (dir) {
