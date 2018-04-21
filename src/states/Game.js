@@ -10,7 +10,7 @@ export default class extends Phaser.State {
     Time.init(this.game)
 
     this.initBitmaps()
-
+    this.inputBlocked = false;
     this.power = 5
     this.currentTurn = -1
 
@@ -71,6 +71,18 @@ export default class extends Phaser.State {
       this.currentTurn = 0
     }
     this.currentPlayer = Players[this.currentTurn]
+    if (this.currentPlayer.selectedPower) {
+      this.power = this.currentPlayer.selectedPower
+    } else {
+      this.power = 5
+    }
+
+    if (this.currentPlayer.selectedRotation) {
+      this.arrow.rotation = this.currentPlayer.selectedRotation
+    } else {
+      this.arrow.rotation = (Math.PI / 4) * 5
+    }
+    this.powerText.text = this.power
     this.ball = this.currentPlayer.ball
     this.relocateArrow()
     this.updatePlayerName()
@@ -95,13 +107,18 @@ export default class extends Phaser.State {
   }
 
   shoot () {
+    if (this.inputBlocked) return
+    this.inputBlocked = true
     this.ball.oldX = this.ball.x
     this.ball.oldY = this.ball.y
+    this.currentPlayer.selectedPower = this.power;
+    this.currentPlayer.selectedRotation = this.arrow.rotation;
     this.ball.shoot(this.power, this.arrow.rotation + Math.PI / 2, this.currentPlayer).then(() => {
       this.relocateArrow()
       this.checkCollision()
       if (!this.gameOver) {
         this.nextTurn()
+        this.inputBlocked = false;
       }
     })
     this.arrow.visible = false
@@ -162,6 +179,7 @@ export default class extends Phaser.State {
   }
 
   rotate (dir) {
+    if (this.inputBlocked) return;
     this.arrow.angle += dir * 20
   }
 
@@ -172,6 +190,7 @@ export default class extends Phaser.State {
   }
 
   changePower (sign) {
+    if (this.inputBlocked) return;
     this.power += sign
     if (this.power > 10)
       this.power = 10
