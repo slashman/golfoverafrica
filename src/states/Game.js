@@ -101,6 +101,8 @@ export default class extends Phaser.State {
   }
 
   shoot () {
+    this.ball.oldX = this.ball.x
+    this.ball.oldY = this.ball.y
     this.ball.shoot(this.power, this.arrow.rotation + Math.PI / 2, this.currentPlayer).then(() => {
       this.relocateArrow()
       this.checkCollision()
@@ -120,9 +122,11 @@ export default class extends Phaser.State {
       return col.a > 0
     })
     if (collided) {
-      this.invadeTerritory(collided, this.currentPlayer, collisionColor);
+      this.invadeTerritory(collided, this.currentPlayer, collisionColor)
     } else {
-      console.log("Landed nowhere")
+      this.eventsText.text = this.currentPlayer.country + ' falls into a hazard'
+      this.currentPlayer.ball.x = this.currentPlayer.ball.oldX
+      this.currentPlayer.ball.y = this.currentPlayer.ball.oldY
     }
   }
 

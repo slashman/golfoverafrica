@@ -38,6 +38,6 @@ export default class extends Phaser.Sprite {
       this.game.add.tween(this.scale).to({ x: toScale, y: toScale }, time / 2, Phaser.Easing.Sinusoidal.Out, true, 0, 0, true)
     }
     this.game.add.tween(this).to({ x: endLocation.x, y: endLocation.y }, time, Phaser.Easing.Sinusoidal.Out, true)
-    return Time.wait(time)
+    return Time.wait(time + 500)
   }
 }
