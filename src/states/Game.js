@@ -3,6 +3,7 @@ import Ball from '../sprites/Ball'
 import Time from '../Time'
 import Territories from '../Territories'
 import Players from '../Players'
+import Random from '../Random'
 
 export default class extends Phaser.State {
   create () {
@@ -119,14 +120,33 @@ export default class extends Phaser.State {
       return col.a > 0
     })
     if (collided) {
-      const c = this.currentPlayer.color
-      collided.bmd.replaceRGB(collisionColor.r, collisionColor.g, collisionColor.b, collisionColor.a, c.r, c.g, c.b, collisionColor.a)
-      this.eventsText.text = this.currentPlayer.country+' occupies ' + collided.territory.name
-      collided.territory.owner = this.currentPlayer.country
-      this.updateScores()
+      this.invadeTerritory(collided, this.currentPlayer, collisionColor);
     } else {
       console.log("Landed nowhere")
     }
+  }
+
+  invadeTerritory (area, player, collisionColor) {
+    if (!area.territory.owner) {
+      this.occupyTerritory(area, player, collisionColor)
+    } else {
+      const defender = Players.find(p => p.country === area.territory.owner)
+      let defensePower = Random.range(1, defender.military * 20) * (100 + Random.range(0, 50)) / 100
+      let attackPower = Random.range(1, player.military * 20) * (100 + Random.range(0, 30)) / 100
+      if (attackPower > defensePower) {
+        this.occupyTerritory(area, player, collisionColor)
+      } else {
+        this.eventsText.text = defender.country + ' repeals ' + player.country + ' invasion'
+      }
+    }
+  }
+
+  occupyTerritory (area, player, collisionColor) {
+    const c = player.color
+    area.bmd.replaceRGB(collisionColor.r, collisionColor.g, collisionColor.b, collisionColor.a, c.r, c.g, c.b, collisionColor.a)
+    this.eventsText.text = player.country + ' occupies ' + area.territory.name
+    area.territory.owner = player.country
+    this.updateScores()
   }
 
   updateScores () {
