@@ -78,7 +78,53 @@ export default class extends Phaser.State {
     this.game.add.existing(right)
     this.game.add.existing(plus)
     this.game.add.existing(minus)
-    this.nextTurn()
+
+    // Title
+    const titleGroup = this.game.add.group();
+    const bg = this.game.add.image(0,0,'title',0,titleGroup);
+    bg.inputEnabled = true;
+    bg.events.onInputDown.add(() => {});
+    const p1select = this.createSelected(47,333, titleGroup)
+    const p2select = this.createSelected(250,333, titleGroup)
+    const p3select = this.createSelected(452,333, titleGroup)
+    const p4select = this.createSelected(653,333, titleGroup)
+    const startBtn = this.game.add.image(380, 650, 'startBtn',0,titleGroup);
+    startBtn.inputEnabled = true;
+    startBtn.events.onInputDown.add(() => {
+      Players[0].enabled = !p1select.notSelected;
+      Players[1].enabled = !p3select.notSelected;
+      Players[2].enabled = !p2select.notSelected;
+      Players[3].enabled = !p4select.notSelected;
+      const count = 
+      (Players[0].enabled ? 1 : 0) + 
+      (Players[1].enabled ? 1 : 0) +
+      (Players[2].enabled ? 1 : 0) +
+      (Players[3].enabled ? 1 : 0);
+      if (count < 2) {
+        alert("Please select at least two players");
+      } else {
+        titleGroup.visible = false;
+        this.nextTurn()
+      }
+    });
+    
+    
+  }
+
+  createSelected(x, y, titleGroup){
+    const button = this.game.add.image(x, y, 'playerNotSelected',0, titleGroup);
+    button.inputEnabled = true;
+    button.notSelected = true;
+    button.events.onInputDown.add(() => {
+      if (button.notSelected) {
+        button.notSelected = false;
+        button.loadTexture('playerSelected');
+      } else {
+        button.notSelected = true;
+        button.loadTexture('playerNotSelected');
+      }
+    });
+    return button;
   }
 
   nextTurn () {
@@ -93,6 +139,10 @@ export default class extends Phaser.State {
 
     }
     this.currentPlayer = Players[this.currentTurn]
+    if (!this.currentPlayer.enabled) {
+      this.nextTurn();
+      return;
+    }
     if (this.currentPlayer.selectedPower) {
       this.power = this.currentPlayer.selectedPower
     } else {
