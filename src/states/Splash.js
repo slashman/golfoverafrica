@@ -24,6 +24,11 @@ export default class extends Phaser.State {
     this.load.image('tee', 'assets/images/tee.png')
 
     Territories.forEach(territory => this.load.image('t-'+territory.id, 'assets/images/t-'+territory.id+'.png'))
+
+    this.load.image('germany', 'assets/images/germany.png')
+    this.load.image('uk', 'assets/images/uk.png')
+    this.load.image('portugal', 'assets/images/portugal.png')
+    this.load.image('france', 'assets/images/france.png')
   }
 
   create () {

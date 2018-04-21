@@ -15,7 +15,7 @@ export default class extends Phaser.State {
     this.currentTurn = -1
     this.startPosition = {
       x: 302,
-      y: 475
+      y: 425
     }
     this.game.add.image(this.startPosition.x - 18, this.startPosition.y - 10, 'tee')
     const shoot = new Phaser.Sprite(this.game, 40 + 60 + 10, 600, 'shootBtn')
@@ -38,13 +38,21 @@ export default class extends Phaser.State {
     this.powerText = this.game.add.text(0, 0, this.power, { font: "bold 32px Serif", fill: "#FFF", boundsAlignH: "center", boundsAlignV: "middle" })
     this.powerText.setTextBounds(40 + 20, 635, 200, 100)
 
-    this.turnName = this.game.add.text(40, 550, '', { font: "bold 32px Serif", fill: "#FFF" })
+    this.turnName = this.game.add.text(40, 720, '', { font: "bold 24px Serif", fill: "#F00" })
+    this.leaderTxt = this.game.add.text(40, 440, '', { font: "bold 32px Serif", fill: "#FFF" })
+    this.titleTxt = this.game.add.text(40, 480, '', { font: "bold 18px Serif", fill: "#FFF" })
+    this.game.add.text(40, 510, 'Military', { font: "bold 18px Serif", fill: "#FFF" })
+    this.game.add.text(40, 530, 'Logistics', { font: "bold 18px Serif", fill: "#FFF" })
+    this.game.add.text(40, 550, 'Leadership', { font: "bold 18px Serif", fill: "#FFF" })
+    this.militaryTxt = this.game.add.text(200, 510, '', { font: "bold 18px Serif", fill: "#FFF" })
+    this.logisticsTxt = this.game.add.text(200, 530, '', { font: "bold 18px Serif", fill: "#FFF" })
+    this.leadershipTxt = this.game.add.text(200, 550, '', { font: "bold 18px Serif", fill: "#FFF" })
 
     this.arrow = new Phaser.Sprite(this.game, 0, 0, 'arrow')
     this.arrow.anchor.setTo(0.5, 0)
     this.arrow.visible = false
 
-    this.eventsText = this.game.add.text(40, 720, '', { font: "bold 24px Serif", fill: "#FFF" })
+    this.eventsText = this.game.add.text(40, 780, '', { font: "bold 18px Serif", fill: "#FFF" })
 
     Players.forEach((p, i) => {
       p.ball = new Ball({
@@ -56,8 +64,8 @@ export default class extends Phaser.State {
       p.ball.scale.setTo(0.2)
       this.game.add.existing(p.ball)
 
-      p.txtScore = this.game.add.text(40, 400 + i * 30, 0, { font: "bold 24px Serif", fill: "#FFF" })
-      p.txtName = this.game.add.text(80, 400 + i * 30, p.country, { font: "bold 24px Serif", fill: "#FFF" })
+      p.txtScore = this.game.add.text(760, 37 + i * 30, 0, { font: "bold 24px Serif", fill: "#FFF" })
+      this.game.add.image(700, 40 + i * 30, p.id)
     })
     this.game.add.existing(this.arrow)
 
@@ -93,7 +101,14 @@ export default class extends Phaser.State {
   }
 
   updatePlayerName () {
-    this.turnName.text = this.currentPlayer.country + ' Turn';
+    this.turnName.text = this.currentPlayer.country + '\'s Turn';
+
+    this.leaderTxt.text = this.currentPlayer.name;
+    this.titleTxt.text = this.currentPlayer.title;
+    this.militaryTxt.text = this.currentPlayer.military;
+    this.logisticsTxt.text = this.currentPlayer.logistics;
+    this.leadershipTxt.text = this.currentPlayer.leadership;
+
   }
 
   initBitmaps () {

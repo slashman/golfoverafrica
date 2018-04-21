@@ -1,7 +1,8 @@
 export default [
   {
     name: 'Victoria',
-    title: 'Queen of the United Kingdom',    
+    title: 'Queen of the United Kingdom',
+    id: 'uk',
     country: 'United Kingdom',
     color: {
       r: 0,
@@ -16,6 +17,7 @@ export default [
     name: 'Jules Grévy',
     title: 'President of France',
     country: 'France',
+    id: 'france',
     color: {
       r: 90,
       g: 0,
@@ -29,6 +31,7 @@ export default [
     name: 'Otto von Bismarck',
     title: 'Chancellor of the German Empire',
     country: 'German Empire',
+    id: 'germany',
     color: {
       r: 90,
       g: 90,
@@ -42,6 +45,7 @@ export default [
     name: 'Dom Luís I',
     title: 'King of Portugal and the Algarves',
     country: 'Portugal',
+    id: 'portugal',
     color: {
       r: 0,
       g: 90,
