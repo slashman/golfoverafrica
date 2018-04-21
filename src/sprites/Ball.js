@@ -17,6 +17,17 @@ export default class extends Phaser.Sprite {
     }
     let realForce = force * forceScale
     realForce = realForce * (100 + Random.range(0, 30)) / 100
+
+    let directionVariationRange = 7
+    if (player.leadership === 1) {
+      directionVariationRange = 10
+    } else if (player.logistics === 3) {
+      directionVariationRange = 5
+    }
+    let variation = Random.range(-directionVariationRange, directionVariationRange)
+    variation = variation * (Math.PI / 180)
+    direction = direction + variation
+
     const endLocation = {
       x: this.x + Math.cos(direction) * realForce,
       y: this.y + Math.sin(direction) * realForce
