@@ -6,10 +6,12 @@ import Players from '../Players'
 import Random from '../Random'
 
 const WIN_SCORE = 10;
-
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 export default class extends Phaser.State {
   create () {
     Time.init(this.game)
+    this.month = 11;
+    this.year = 1984;
 
     this.initBitmaps()
     this.inputBlocked = false;
@@ -39,7 +41,7 @@ export default class extends Phaser.State {
 
     this.powerText = this.game.add.text(0, 0, this.power, { font: "bold 32px Serif", fill: "#FFF", boundsAlignH: "center", boundsAlignV: "middle" })
     this.powerText.setTextBounds(40 + 20, 635, 200, 100)
-
+    this.dateText = this.game.add.text(700 , 780, '', { font: "bold 18px Serif", fill: "#FFF" })
     this.turnName = this.game.add.text(40, 720, '', { font: "bold 24px Serif", fill: "#F00" })
     this.leaderTxt = this.game.add.text(40, 440, '', { font: "bold 32px Serif", fill: "#FFF" })
     this.titleTxt = this.game.add.text(40, 480, '', { font: "bold 18px Serif", fill: "#FFF" })
@@ -83,6 +85,12 @@ export default class extends Phaser.State {
     this.currentTurn++
     if (this.currentTurn >= Players.length) {
       this.currentTurn = 0
+      this.month++;
+      if (this.month === 13) {
+        this.month = 1;
+        this.year++;
+      }
+
     }
     this.currentPlayer = Players[this.currentTurn]
     if (this.currentPlayer.selectedPower) {
@@ -111,6 +119,7 @@ export default class extends Phaser.State {
     this.logisticsTxt.text = this.currentPlayer.logistics;
     this.leadershipTxt.text = this.currentPlayer.leadership;
 
+    this.dateText.text = MONTHS[this.month - 1]+", "+this.year;
   }
 
   initBitmaps () {
@@ -174,7 +183,7 @@ export default class extends Phaser.State {
       if (attackPower > defensePower) {
         this.occupyTerritory(area, player, collisionColor)
       } else {
-        this.eventsText.text = defender.country + ' repeals ' + player.country + ' invasion'
+        this.eventsText.text = defender.country + ' repels ' + player.country + ' invasion'
       }
     }
   }
