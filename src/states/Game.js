@@ -127,6 +127,8 @@ export default class extends Phaser.State {
   invadeTerritory (area, player, collisionColor) {
     if (!area.territory.owner) {
       this.occupyTerritory(area, player, collisionColor)
+    } else if (area.territory.owner === player.country) {
+      // Do nothing
     } else {
       const defender = Players.find(p => p.country === area.territory.owner)
       let defensePower = Random.range(1, defender.military * 20) * (100 + Random.range(0, 50)) / 100
