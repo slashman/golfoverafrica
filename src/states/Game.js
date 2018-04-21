@@ -5,6 +5,8 @@ import Territories from '../Territories'
 import Players from '../Players'
 import Random from '../Random'
 
+const WIN_SCORE = 10;
+
 export default class extends Phaser.State {
   create () {
     Time.init(this.game)
@@ -17,7 +19,7 @@ export default class extends Phaser.State {
       x: 302,
       y: 425
     }
-    this.game.add.image(this.startPosition.x - 18, this.startPosition.y - 10, 'tee')
+    //this.game.add.image(this.startPosition.x - 18, this.startPosition.y - 10, 'tee')
     const shoot = new Phaser.Sprite(this.game, 40 + 60 + 10, 600, 'shootBtn')
     shoot.inputEnabled = true
     shoot.events.onInputDown.add(() => this.shoot())
@@ -189,7 +191,7 @@ export default class extends Phaser.State {
     Players.forEach((p) => {
       p.score = Territories.filter(t => t.owner === p.country).length
       p.txtScore.text = p.score
-      if (p.score === 3) {
+      if (p.score === WIN_SCORE) {
         this.eventsText.text = p.country + ' has conquered Africa!'
         this.arrow.visible = false
         this.gameOver = true
