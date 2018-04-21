@@ -3,3 +3,14 @@ Players
  France
  Portugal
  Germany
+
+
+
+Random variation of power and direction
+Deciding conflict when already occupied (Leave troops?)
+
+
+Stats
+ Military Strength = Helps resolve territorial disputes
+ Logistics = Allows reaching far away lands more easily
+ Leadership = Increases accuracy of moves

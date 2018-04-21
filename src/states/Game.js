@@ -100,7 +100,7 @@ export default class extends Phaser.State {
   }
 
   shoot () {
-    this.ball.shoot(this.power, this.arrow.rotation + Math.PI / 2, 0).then(() => {
+    this.ball.shoot(this.power, this.arrow.rotation + Math.PI / 2, this.currentPlayer).then(() => {
       this.relocateArrow()
       this.checkCollision()
       if (!this.gameOver) {

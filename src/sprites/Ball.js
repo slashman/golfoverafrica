@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import Time from '../Time'
+import Random from '../Random'
 
 export default class extends Phaser.Sprite {
   constructor ({ game, x, y, asset }) {
@@ -7,8 +8,15 @@ export default class extends Phaser.Sprite {
     this.anchor.setTo(0.5)
   }
 
-  shoot (force, direction) {
-    const realForce = force * 20
+  shoot (force, direction, player) {
+    let forceScale = 20
+    if (player.logistics === 1) {
+      forceScale = 15
+    } else if (player.logistics === 3) {
+      forceScale = 25
+    }
+    let realForce = force * forceScale
+    realForce = realForce * (100 + Random.range(0, 30)) / 100
     const endLocation = {
       x: this.x + Math.cos(direction) * realForce,
       y: this.y + Math.sin(direction) * realForce
