@@ -9,6 +9,16 @@ const WIN_SCORE = 10;
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 export default class extends Phaser.State {
   create () {
+    if (window.innerHeight < 880) {
+      // I hate this code.
+      const scale = (window.innerHeight * window.devicePixelRatio) / 880
+      this.game.world.scale.x = scale
+      this.game.world.scale.y = scale
+      this.game.world.updateTransform()
+    } else {
+      this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;  
+    }
+
     Time.init(this.game)
     this.month = 11;
     this.year = 1984;
@@ -21,7 +31,6 @@ export default class extends Phaser.State {
       x: 302,
       y: 425
     }
-    //this.game.add.image(this.startPosition.x - 18, this.startPosition.y - 10, 'tee')
     const shoot = new Phaser.Sprite(this.game, 40 + 60 + 10, 600, 'shootBtn')
     shoot.inputEnabled = true
     shoot.events.onInputDown.add(() => this.shoot())
