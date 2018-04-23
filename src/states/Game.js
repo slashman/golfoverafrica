@@ -11,7 +11,7 @@ export default class extends Phaser.State {
   create () {
     if (window.innerHeight < 880) {
       // I hate this code.
-      const scale = (window.innerHeight * window.devicePixelRatio) / 880
+      const scale = (window.innerHeight) / 880
       this.game.world.scale.x = scale
       this.game.world.scale.y = scale
       this.game.world.updateTransform()
@@ -21,7 +21,7 @@ export default class extends Phaser.State {
 
     Time.init(this.game)
     this.month = 11;
-    this.year = 1984;
+    this.year = 1884;
 
     this.initBitmaps()
     this.inputBlocked = false;
